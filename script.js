@@ -8,8 +8,10 @@ class Zoo {
 
 const zooForm = document.getElementById('zoo-form');
 const zooList = document.getElementById('zoo-list');
+const searchResultsList = document.getElementById('search-results');
 
 let zoos = [];
+let filteredZoos = [];
 
 zooForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -35,15 +37,17 @@ function addZoo(zoo) {
     updateDOM();
 }
 
-function updateDOM() {
+function updateDOM(zooData = zoos) {
     zooList.innerHTML = '';
+    searchResultsList.innerHTML = '';
 
-    zoos.forEach((zoo) => {
+    zooData.forEach((zoo) => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `<strong>${zoo.name}</strong> - Annual Visitors: ${zoo.annualVisitors}, Number of Animals: ${zoo.numAnimals}`;
         zooList.appendChild(listItem);
     });
 }
+
 
 function updateZoo(zoo) {
     const zooIndex = zoos.findIndex((z) => z.name === zoo.name);
@@ -64,9 +68,9 @@ function sortZoosByVisitors() {
     updateDOM();
 }
 
-function calculateTotalVisitors() {
-    const totalVisitors = zoos.reduce((acc, zoo) => acc + zoo.annualVisitors, 0);
-    alert(`Total Annual Visitors for All Zoos: ${totalVisitors}`);
+function calculateTotalVisitors(filteredZoos) {
+    const totalVisitors = filteredZoos.reduce((acc, zoo) => acc + zoo.annualVisitors, 0);
+    alert(`Total Annual Visitors for Searched Zoos: ${totalVisitors}`);
 }
 
 function doubleVisitorsToZoos() {
@@ -74,6 +78,19 @@ function doubleVisitorsToZoos() {
         return { ...zoo, annualVisitors: zoo.annualVisitors * 2 };
     });
     updateDOM();
+}
+
+function filterAndSortZoos(searchKeyword = '') {
+    filteredZoos = zoos;
+
+    if (searchKeyword) {
+        filteredZoos = filteredZoos.filter((zoo) =>
+            zoo.name.toLowerCase().includes(searchKeyword)
+        );
+    }
+
+    filteredZoos.sort((a, b) => a.annualVisitors - b.annualVisitors);
+    updateDOM(filteredZoos);
 }
 
 document.getElementById('update-zoo').addEventListener('click', function () {
@@ -96,14 +113,25 @@ document.getElementById('delete-zoo').addEventListener('click', function () {
     }
 });
 
-document.getElementById('sort-zoos').addEventListener('click', function () {
-    sortZoosByVisitors();
+document.getElementById('search-by-name').addEventListener('click', function () {
+    const searchKeyword = document.getElementById('search-zoo').value.trim().toLowerCase();
+    const filteredZoos = filterAndSortZoos(searchKeyword);
+    calculateTotalVisitors(filteredZoos); // Calculate total for searched zoos
 });
 
-document.getElementById('calculate-total-visitors').addEventListener('click', function () {
-    calculateTotalVisitors();
+document.getElementById('sort-by-visitors').addEventListener('click', function () {
+    const searchKeyword = document.getElementById('search-zoo').value.trim().toLowerCase();
+    const filteredZoos = filterAndSortZoos(searchKeyword);
+    calculateTotalVisitors(filteredZoos); // Calculate total for searched zoos
 });
 
 document.getElementById('double-visitors').addEventListener('click', function () {
     doubleVisitorsToZoos();
 });
+
+document.getElementById('calculate-total-visitors').addEventListener('click', function () {
+    calculateTotalVisitors(filteredZoos);
+});
+
+
+updateDOM(zoos);
