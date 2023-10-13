@@ -1,5 +1,6 @@
 class Zoo {
-    constructor(name, annualVisitors, numAnimals) {
+    constructor(id, name, annualVisitors, numAnimals) {
+        this.id = id;
         this.name = name;
         this.annualVisitors = annualVisitors;
         this.numAnimals = numAnimals;
@@ -11,6 +12,8 @@ const zooList = document.getElementById('zoo-list');
 
 let zoos = [];
 
+let uniqueId = 1;
+
 zooForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -18,17 +21,19 @@ zooForm.addEventListener('submit', function (e) {
     const annualVisitors = parseInt(document.getElementById('annual-visitors').value);
     const numAnimals = parseInt(document.getElementById('num-animals').value);
 
-    if (zooName && !isNaN(annualVisitors) && !isNaN(numAnimals)) {
-        const newZoo = new Zoo(zooName, annualVisitors, numAnimals);
+    if (zooName && !isNaN(annualVisitors) && !isNaN(numAnimals) && annualVisitors >= 0 && numAnimals >= 0) {
+        const newZoo = new Zoo(uniqueId, zooName, annualVisitors, numAnimals);
+        uniqueId++;
         addZoo(newZoo);
 
         document.getElementById('zoo-name').value = '';
         document.getElementById('annual-visitors').value = '';
         document.getElementById('num-animals').value = '';
     } else {
-        alert('Please enter valid data.');
+        alert('Please enter valid data, and ensure that the values are not negative.');
     }
 });
+
 
 function addZoo(zoo) {
     zoos.push(zoo);
@@ -41,12 +46,13 @@ function updateDOM(zooArray = zoos) {
     zooArray.forEach((zoo) => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `<strong>${zoo.name}</strong> - Annual Visitors: ${zoo.annualVisitors}, Number of Animals: ${zoo.numAnimals}`;
-        
+
         const updateButton = document.createElement('button');
         updateButton.innerText = 'Update';
         updateButton.setAttribute('data-toggle', 'modal');
         updateButton.setAttribute('data-target', '#updateModal');
         updateButton.addEventListener('click', function () {
+            document.getElementById('update-zoo-id').value = zoo.id; // Set the zoo ID
             document.getElementById('update-zoo-name').value = zoo.name;
             document.getElementById('update-annual-visitors').value = zoo.annualVisitors;
             document.getElementById('update-num-animals').value = zoo.numAnimals;
@@ -69,7 +75,7 @@ function updateDOM(zooArray = zoos) {
 
 
 function updateZoo(updatedZoo) {
-    const zooIndex = zoos.findIndex((z) => z.name === updatedZoo.name);
+    const zooIndex = zoos.findIndex((z) => z.id === updatedZoo.id);
 
     if (zooIndex !== -1) {
         zoos[zooIndex] = updatedZoo;
@@ -100,16 +106,17 @@ function doubleVisitorsToZoos() {
 }
 
 document.getElementById('update-zoo-submit').addEventListener('click', function () {
+    const zooId = parseInt(document.getElementById('update-zoo-id').value);
     const zooName = document.getElementById('update-zoo-name').value;
     const annualVisitors = parseInt(document.getElementById('update-annual-visitors').value);
     const numAnimals = parseInt(document.getElementById('update-num-animals').value);
 
-    if (zooName && !isNaN(annualVisitors) && !isNaN(numAnimals)) {
-        const updatedZoo = new Zoo(zooName, annualVisitors, numAnimals);
+    if (!isNaN(zooId) && zooName && !isNaN(annualVisitors) && !isNaN(numAnimals) && annualVisitors >= 0 && numAnimals >= 0) {
+        const updatedZoo = new Zoo(zooId, zooName, annualVisitors, numAnimals);
         updateZoo(updatedZoo);
         $('#updateModal').modal('hide');
     } else {
-        alert('Please enter valid data.');
+        alert('Please enter valid data, and ensure that the values are not negative.');
     }
 });
 
