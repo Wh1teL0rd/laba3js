@@ -35,21 +35,44 @@ function addZoo(zoo) {
     updateDOM();
 }
 
-function updateDOM() {
+function updateDOM(zooArray = zoos) {
     zooList.innerHTML = '';
 
-    zoos.forEach((zoo) => {
+    zooArray.forEach((zoo) => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `<strong>${zoo.name}</strong> - Annual Visitors: ${zoo.annualVisitors}, Number of Animals: ${zoo.numAnimals}`;
+        
+        const updateButton = document.createElement('button');
+        updateButton.innerText = 'Update';
+        updateButton.setAttribute('data-toggle', 'modal');
+        updateButton.setAttribute('data-target', '#updateModal');
+        updateButton.addEventListener('click', function () {
+            document.getElementById('update-zoo-name').value = zoo.name;
+            document.getElementById('update-annual-visitors').value = zoo.annualVisitors;
+            document.getElementById('update-num-animals').value = zoo.numAnimals;
+        });
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.setAttribute('data-toggle', 'modal');
+        deleteButton.setAttribute('data-target', '#deleteModal');
+        deleteButton.addEventListener('click', function () {
+            document.getElementById('delete-zoo-name').innerText = zoo.name;
+        });
+
+        listItem.appendChild(updateButton);
+        listItem.appendChild(deleteButton);
+
         zooList.appendChild(listItem);
     });
 }
 
-function updateZoo(zoo) {
-    const zooIndex = zoos.findIndex((z) => z.name === zoo.name);
+
+function updateZoo(updatedZoo) {
+    const zooIndex = zoos.findIndex((z) => z.name === updatedZoo.name);
 
     if (zooIndex !== -1) {
-        zoos[zooIndex] = zoo;
+        zoos[zooIndex] = updatedZoo;
         updateDOM();
     }
 }
@@ -76,24 +99,40 @@ function doubleVisitorsToZoos() {
     updateDOM();
 }
 
-document.getElementById('update-zoo').addEventListener('click', function () {
-    const zooName = document.getElementById('zoo-name').value;
-    const annualVisitors = parseInt(document.getElementById('annual-visitors').value);
-    const numAnimals = parseInt(document.getElementById('num-animals').value);
+document.getElementById('update-zoo-submit').addEventListener('click', function () {
+    const zooName = document.getElementById('update-zoo-name').value;
+    const annualVisitors = parseInt(document.getElementById('update-annual-visitors').value);
+    const numAnimals = parseInt(document.getElementById('update-num-animals').value);
 
     if (zooName && !isNaN(annualVisitors) && !isNaN(numAnimals)) {
         const updatedZoo = new Zoo(zooName, annualVisitors, numAnimals);
         updateZoo(updatedZoo);
+        $('#updateModal').modal('hide');
     } else {
         alert('Please enter valid data.');
     }
 });
 
-document.getElementById('delete-zoo').addEventListener('click', function () {
-    const zooNameToDelete = prompt('Enter the name of the zoo to delete:');
-    if (zooNameToDelete) {
-        deleteZoo(zooNameToDelete);
+document.getElementById('search-zoo-button').addEventListener('click', function () {
+    const searchName = document.getElementById('search-zoo').value;
+    
+    if (searchName) {
+        const results = zoos.filter((zoo) => zoo.name.toLowerCase().includes(searchName.toLowerCase()));
+        
+        if (results.length > 0) {
+            updateDOM(results);
+        } else {
+            zooList.innerHTML = '<li>No matching zoos found.</li>';
+        }
+    } else {
+        updateDOM();
     }
+});
+
+document.getElementById('delete-zoo-confirm').addEventListener('click', function () {
+    const zooNameToDelete = document.getElementById('delete-zoo-name').innerText;
+    deleteZoo(zooNameToDelete);
+    $('#deleteModal').modal('hide');
 });
 
 document.getElementById('sort-zoos').addEventListener('click', function () {
