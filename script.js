@@ -1,5 +1,6 @@
 class Zoo {
-    constructor(name, annualVisitors, numAnimals) {
+    constructor(id, name, annualVisitors, numAnimals) {
+        this.id = id;
         this.name = name;
         this.annualVisitors = annualVisitors;
         this.numAnimals = numAnimals;
@@ -8,10 +9,10 @@ class Zoo {
 
 const zooForm = document.getElementById('zoo-form');
 const zooList = document.getElementById('zoo-list');
-const searchResultsList = document.getElementById('search-results');
 
 let zoos = [];
-let filteredZoos = [];
+
+let uniqueId = 1;
 
 zooForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -20,40 +21,64 @@ zooForm.addEventListener('submit', function (e) {
     const annualVisitors = parseInt(document.getElementById('annual-visitors').value);
     const numAnimals = parseInt(document.getElementById('num-animals').value);
 
-    if (zooName && !isNaN(annualVisitors) && !isNaN(numAnimals)) {
-        const newZoo = new Zoo(zooName, annualVisitors, numAnimals);
+    if (zooName && !isNaN(annualVisitors) && !isNaN(numAnimals) && annualVisitors >= 0 && numAnimals >= 0) {
+        const newZoo = new Zoo(uniqueId, zooName, annualVisitors, numAnimals);
+        uniqueId++;
         addZoo(newZoo);
 
         document.getElementById('zoo-name').value = '';
         document.getElementById('annual-visitors').value = '';
         document.getElementById('num-animals').value = '';
     } else {
-        alert('Please enter valid data.');
+        alert('Please enter valid data, and ensure that the values are not negative.');
     }
 });
+
 
 function addZoo(zoo) {
     zoos.push(zoo);
     updateDOM();
 }
 
-function updateDOM(zooData = zoos) {
+function updateDOM(zooArray = zoos) {
     zooList.innerHTML = '';
-    searchResultsList.innerHTML = '';
 
-    zooData.forEach((zoo) => {
+    zooArray.forEach((zoo) => {
         const listItem = document.createElement('li');
         listItem.innerHTML = `<strong>${zoo.name}</strong> - Annual Visitors: ${zoo.annualVisitors}, Number of Animals: ${zoo.numAnimals}`;
+
+        const updateButton = document.createElement('button');
+        updateButton.innerText = 'Update';
+        updateButton.setAttribute('data-toggle', 'modal');
+        updateButton.setAttribute('data-target', '#updateModal');
+        updateButton.addEventListener('click', function () {
+            document.getElementById('update-zoo-id').value = zoo.id; // Set the zoo ID
+            document.getElementById('update-zoo-name').value = zoo.name;
+            document.getElementById('update-annual-visitors').value = zoo.annualVisitors;
+            document.getElementById('update-num-animals').value = zoo.numAnimals;
+        });
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.setAttribute('data-toggle', 'modal');
+        deleteButton.setAttribute('data-target', '#deleteModal');
+        deleteButton.addEventListener('click', function () {
+            document.getElementById('delete-zoo-name').innerText = zoo.name;
+        });
+
+        listItem.appendChild(updateButton);
+        listItem.appendChild(deleteButton);
+
         zooList.appendChild(listItem);
     });
 }
 
 
-function updateZoo(zoo) {
-    const zooIndex = zoos.findIndex((z) => z.name === zoo.name);
+function updateZoo(updatedZoo) {
+    const zooIndex = zoos.findIndex((z) => z.id === updatedZoo.id);
 
     if (zooIndex !== -1) {
-        zoos[zooIndex] = zoo;
+        zoos[zooIndex] = updatedZoo;
         updateDOM();
     }
 }
@@ -68,9 +93,9 @@ function sortZoosByVisitors() {
     updateDOM();
 }
 
-function calculateTotalVisitors(filteredZoos) {
-    const totalVisitors = filteredZoos.reduce((acc, zoo) => acc + zoo.annualVisitors, 0);
-    alert(`Total Annual Visitors for Searched Zoos: ${totalVisitors}`);
+function calculateTotalVisitors() {
+    const totalVisitors = zoos.reduce((acc, zoo) => acc + zoo.annualVisitors, 0);
+    alert(`Total Annual Visitors for All Zoos: ${totalVisitors}`);
 }
 
 function doubleVisitorsToZoos() {
@@ -80,58 +105,51 @@ function doubleVisitorsToZoos() {
     updateDOM();
 }
 
-function filterAndSortZoos(searchKeyword = '') {
-    filteredZoos = zoos;
+document.getElementById('update-zoo-submit').addEventListener('click', function () {
+    const zooId = parseInt(document.getElementById('update-zoo-id').value);
+    const zooName = document.getElementById('update-zoo-name').value;
+    const annualVisitors = parseInt(document.getElementById('update-annual-visitors').value);
+    const numAnimals = parseInt(document.getElementById('update-num-animals').value);
 
-    if (searchKeyword) {
-        filteredZoos = filteredZoos.filter((zoo) =>
-            zoo.name.toLowerCase().includes(searchKeyword)
-        );
-    }
-
-    filteredZoos.sort((a, b) => a.annualVisitors - b.annualVisitors);
-    updateDOM(filteredZoos);
-}
-
-document.getElementById('update-zoo').addEventListener('click', function () {
-    const zooName = document.getElementById('zoo-name').value;
-    const annualVisitors = parseInt(document.getElementById('annual-visitors').value);
-    const numAnimals = parseInt(document.getElementById('num-animals').value);
-
-    if (zooName && !isNaN(annualVisitors) && !isNaN(numAnimals)) {
-        const updatedZoo = new Zoo(zooName, annualVisitors, numAnimals);
+    if (!isNaN(zooId) && zooName && !isNaN(annualVisitors) && !isNaN(numAnimals) && annualVisitors >= 0 && numAnimals >= 0) {
+        const updatedZoo = new Zoo(zooId, zooName, annualVisitors, numAnimals);
         updateZoo(updatedZoo);
+        $('#updateModal').modal('hide');
     } else {
-        alert('Please enter valid data.');
+        alert('Please enter valid data, and ensure that the values are not negative.');
     }
 });
 
-document.getElementById('delete-zoo').addEventListener('click', function () {
-    const zooNameToDelete = prompt('Enter the name of the zoo to delete:');
-    if (zooNameToDelete) {
-        deleteZoo(zooNameToDelete);
+document.getElementById('search-zoo-button').addEventListener('click', function () {
+    const searchName = document.getElementById('search-zoo').value;
+    
+    if (searchName) {
+        const results = zoos.filter((zoo) => zoo.name.toLowerCase().includes(searchName.toLowerCase()));
+        
+        if (results.length > 0) {
+            updateDOM(results);
+        } else {
+            zooList.innerHTML = '<li>No matching zoos found.</li>';
+        }
+    } else {
+        updateDOM();
     }
 });
 
-document.getElementById('search-by-name').addEventListener('click', function () {
-    const searchKeyword = document.getElementById('search-zoo').value.trim().toLowerCase();
-    const filteredZoos = filterAndSortZoos(searchKeyword);
-    calculateTotalVisitors(filteredZoos); // Calculate total for searched zoos
+document.getElementById('delete-zoo-confirm').addEventListener('click', function () {
+    const zooNameToDelete = document.getElementById('delete-zoo-name').innerText;
+    deleteZoo(zooNameToDelete);
+    $('#deleteModal').modal('hide');
 });
 
-document.getElementById('sort-by-visitors').addEventListener('click', function () {
-    const searchKeyword = document.getElementById('search-zoo').value.trim().toLowerCase();
-    const filteredZoos = filterAndSortZoos(searchKeyword);
-    calculateTotalVisitors(filteredZoos); // Calculate total for searched zoos
+document.getElementById('sort-zoos').addEventListener('click', function () {
+    sortZoosByVisitors();
+});
+
+document.getElementById('calculate-total-visitors').addEventListener('click', function () {
+    calculateTotalVisitors();
 });
 
 document.getElementById('double-visitors').addEventListener('click', function () {
     doubleVisitorsToZoos();
 });
-
-document.getElementById('calculate-total-visitors').addEventListener('click', function () {
-    calculateTotalVisitors(filteredZoos);
-});
-
-
-updateDOM(zoos);
