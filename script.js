@@ -92,20 +92,25 @@ function updateZoo(updatedZoo) {
     }
 }
 
-function deleteZoo(zooId) {
-    const zooIndex = zoos.findIndex((z) => z.id === zooId);
+function deleteZoo(zooName) {
+    const zooToDelete = zoos.find((zoo) => zoo.name === zooName);
+    if (zooToDelete) {
+        const zooId = zooToDelete.id;
 
-    if (zooIndex !== -1) {
         axios.delete(`/zoos/${zooId}`)
             .then(response => {
+                const zooIndex = zoos.findIndex((zoo) => zoo.id === zooId);
                 zoos.splice(zooIndex, 1);
                 updateDOM();
             })
             .catch(error => {
                 console.error('Error:', error);
             });
+    } else {
+        console.error('Zoo not found in the array.');
     }
 }
+
 
 function sortZoosByVisitors() {
     zoos.sort((a, b) => a.annualVisitors - b.annualVisitors);
