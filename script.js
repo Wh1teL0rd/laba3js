@@ -42,6 +42,8 @@ zooForm.addEventListener('submit', function (e) {
 function addZoo(zoo) {
     zoos.push(zoo);
     updateDOM();
+
+    localStorage.setItem('zoos', JSON.stringify(zoos));
 }
 
 function updateDOM(zooArray = zoos) {
@@ -177,3 +179,8 @@ document.getElementById('calculate-total-visitors').addEventListener('click', fu
 document.getElementById('double-visitors').addEventListener('click', function () {
     doubleVisitorsToZoos();
 });
+
+if (localStorage.getItem('zoos')) {
+    zoos = JSON.parse(localStorage.getItem('zoos'));
+    updateDOM();
+}
