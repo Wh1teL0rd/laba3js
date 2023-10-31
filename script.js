@@ -12,8 +12,6 @@ const zooList = document.getElementById('zoo-list');
 
 let zoos = [];
 
-let uniqueId = 1;
-
 zooForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
@@ -22,9 +20,16 @@ zooForm.addEventListener('submit', function (e) {
     const numAnimals = parseInt(document.getElementById('num-animals').value);
 
     if (zooName && !isNaN(annualVisitors) && !isNaN(numAnimals) && annualVisitors >= 0 && numAnimals >= 0) {
-        const newZoo = new Zoo(uniqueId, zooName, annualVisitors, numAnimals);
-        uniqueId++;
-        addZoo(newZoo);
+        const newZoo = new Zoo(null, zooName, annualVisitors, numAnimals);
+
+        axios.post('/zoos', newZoo)
+            .then(response => {
+                newZoo.id = response.data.id;
+                addZoo(newZoo);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
 
         document.getElementById('zoo-name').value = '';
         document.getElementById('annual-visitors').value = '';
@@ -34,10 +39,11 @@ zooForm.addEventListener('submit', function (e) {
     }
 });
 
-
 function addZoo(zoo) {
     zoos.push(zoo);
     updateDOM();
+
+    localStorage.setItem('zoos', JSON.stringify(zoos));
 }
 
 function updateDOM(zooArray = zoos) {
@@ -73,20 +79,40 @@ function updateDOM(zooArray = zoos) {
     });
 }
 
-
 function updateZoo(updatedZoo) {
     const zooIndex = zoos.findIndex((z) => z.id === updatedZoo.id);
 
     if (zooIndex !== -1) {
-        zoos[zooIndex] = updatedZoo;
-        updateDOM();
+        axios.put(`/zoos/${updatedZoo.id}`, updatedZoo)
+            .then(response => {
+                zoos[zooIndex] = updatedZoo;
+                updateDOM();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 }
 
 function deleteZoo(zooName) {
-    zoos = zoos.filter((zoo) => zoo.name !== zooName);
-    updateDOM();
+    const zooToDelete = zoos.find((zoo) => zoo.name === zooName);
+    if (zooToDelete) {
+        const zooId = zooToDelete.id;
+
+        axios.delete(`/zoos/${zooId}`)
+            .then(response => {
+                const zooIndex = zoos.findIndex((zoo) => zoo.id === zooId);
+                zoos.splice(zooIndex, 1);
+                updateDOM();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    } else {
+        console.error('Zoo not found in the array.');
+    }
 }
+
 
 function sortZoosByVisitors() {
     zoos.sort((a, b) => a.annualVisitors - b.annualVisitors);
@@ -153,3 +179,8 @@ document.getElementById('calculate-total-visitors').addEventListener('click', fu
 document.getElementById('double-visitors').addEventListener('click', function () {
     doubleVisitorsToZoos();
 });
+
+if (localStorage.getItem('zoos')) {
+    zoos = JSON.parse(localStorage.getItem('zoos'));
+    updateDOM();
+}
