@@ -4,7 +4,7 @@ const Title = () => {
   return (
       <div className={'title-container'}>
           <img src={logo} alt="" className={'logo'}/>
-          {/*<h2 className={'store-title'}>The Bookshelf</h2>*/}
+          {<h2 className={'store-title'}>The Wings</h2>}
       </div>
   )
 }
