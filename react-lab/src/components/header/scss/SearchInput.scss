@@ -6,8 +6,9 @@ $placeholder-color: rgba(15, 15, 131, 0.4);
   width: 10%;
 
   input {
+    color: #bda132;
     display: block;
-    width: 100%;
+    width: 80%;
     border: none;
     background-color: base.$light-purple-back;
     font-family: base.$main-font;
@@ -20,6 +21,6 @@ $placeholder-color: rgba(15, 15, 131, 0.4);
 
 
 ::placeholder {
-  color: $placeholder-color;
+  color: #bda132;;
 }
 

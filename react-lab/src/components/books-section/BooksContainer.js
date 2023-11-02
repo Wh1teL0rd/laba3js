@@ -8,11 +8,11 @@ const BooksContainer = () => {
         {
             id: 1,
             countOfPages: 432,
-            author: "Frank Herbert",
-            title: "Dune",
-            description: "An informative book exploring the wonders of science. ",
-            priceInUah: 87.75,
-            image: 'https://imageupload.io/ib/kswjd36v3RjWL0l_1696884536.png'
+            author: "Stephen Hawking",
+            title: "A Brief History of Time",
+            description: "An informative book about cosmology. ",
+            priceInUah: 47.75,
+            image: 'https://imageupload.io/ib/7mTHIWBekeF79E0_1698918210.jpg'
         },
         {
             id: 2,
@@ -21,25 +21,25 @@ const BooksContainer = () => {
             title: "1984",
             description: "A captivating mystery that keeps you guessing until the end.",
             priceInUah: 37.75,
-            image: 'https://imageupload.io/ib/3mE0ic5sGFtmfZi_1696884633.png'
+            image: 'https://imageupload.io/ib/N7s8HrIWhMVQhja_1698918446.jpg'
         },
         {
             id: 3,
-            countOfPages: 320,
-            author: "Ikigai",
-            title: "Hector Garcia",
+            countOfPages: 235,
+            author: "Andrzej Sapkowski",
+            title: "The Witcher",
             description: "A thrilling adventure novel with twists and turns.",
-            priceInUah: 36.00,
-            image: 'https://imageupload.io/ib/kGlJpWqoxSeWJCr_1696884654.png'
+            priceInUah: 50.00,
+            image: 'https://imageupload.io/ib/W7snyzqPQ8MwuZn_1698918625.png'
         },
         {
             id: 4,
             countOfPages: 320,
-            author: "Aristoteles",
-            title: "Metafizik",
+            author: "Chuck Palahniuk",
+            title: "Fight Club",
             description: "A thrilling adventure novel with twists and turns.",
             priceInUah: 36.00,
-            image: 'https://imageupload.io/ib/xX4IoVpsGB1IWja_1696884667.png'
+            image: 'https://imageupload.io/ib/4boIxl9as3AG916_1698918770.jpg'
         }
 
     ];
