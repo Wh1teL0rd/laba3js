@@ -1,4 +1,4 @@
-import './scss/Havbar.scss'
+import './scss/Navbar.scss'
 const Navbar = () => {
     return (<div>
         <div className={'navbar'}>

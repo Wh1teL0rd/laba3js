@@ -1,5 +1,5 @@
 import SearchInput from "./SearchInput";
-import Navbar from "./Havbar.js";
+import Navbar from "./Navbar.js";
 import Title from './Title'
 import './scss/Header.scss'
 
