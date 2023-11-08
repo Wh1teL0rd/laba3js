@@ -1,5 +1,5 @@
 import './scss/Footer.scss'
-import logo from './../../img/Logo.png'
+import logo from './../../assets/Logo.png'
 import SocialNetworks from "./SocialNetworks";
 
 const Footer = () => {

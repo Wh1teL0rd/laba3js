@@ -1,7 +1,7 @@
-import twitter from "../../img/twitter.png";
-import linkedin from "../../img/linkedin.png";
-import facebook from "../../img/facebook.png";
-import google from "../../img/google-plus.png";
+import twitter from "../../assets/twitter.png";
+import linkedin from "../../assets/linkedin.png";
+import facebook from "../../assets/facebook.png";
+import google from "../../assets/google-plus.png";
 import './scss/SocialNetworks.scss'
 
 const SocialNetworks = () => {

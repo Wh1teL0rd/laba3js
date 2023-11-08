@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope&display=swap');
+
+$light-purple-back: #F4F4FF;
+$main-font: 'Manrope', sans-serif;
+$purple-text: #bda132;
+$blue-title-color: #c4ad29;
+$blue-title-color-opacity: rgba(209, 123, 24, 0.6);
+$body-back: rgba(251, 240, 195, 0.4);
+
+@mixin cards-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  @mixin cards-list {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 auto 7rem;
+  }
