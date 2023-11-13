@@ -1,3 +1,4 @@
+// CatalogHeader.scss
 @use './../../../assets/base';
 
 .catalog-header {
@@ -41,11 +42,30 @@
           transition: all 0.5s;
         }
       }
-
     }
 
     h1 {
       margin: 0;
+    }
+
+    select {
+      margin-right: 1rem;
+      background-color: transparent;
+      border: none;
+      position: relative;
+      font-family: base.$main-font;
+      padding: 0;
+      overflow: visible;
+      border-bottom: base.$purple-text 2px solid;
+
+      &:focus {
+        outline: none;
+
+        &::placeholder {
+          transform: translateY(1rem);
+          transition: all 0.5s;
+        }
+      }
     }
   }
 
@@ -81,11 +101,9 @@
     }
   }
 
-
   .hidden-element {
     display: none;
   }
-
 
   .filter-icon {
     margin-left: 2rem;
@@ -133,5 +151,4 @@
       width: 1rem;
     }
   }
-
 }

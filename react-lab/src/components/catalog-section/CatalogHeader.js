@@ -1,32 +1,32 @@
-import './scss/CatalogHeader.scss'
-import {useEffect, useState} from "react";
+import "./scss/CatalogHeader.scss"
+import React, { useState } from "react";
+import FilterBlock from "./FilterBlock";
+import FilterIcon from "./FilterIcon";
+import FilterSection from "./FilterSection";
 
 const CatalogHeader = () => {
+  const [open, setOpen] = useState(false);
+  const [sortBy, setSortBy] = useState("default");
 
-    const [open, setOpen] = useState(false);
+  function openFilterWindow() {
+    setOpen(!open);
+  }
 
-    function openFilterWindow(event) {
-        setOpen(!open);
-    }
+  function handleSortChange(event) {
+    setSortBy(event.target.value);
+  }
 
-    return (
-        <div className={'catalog-header'}>
-            <h2 className={'title'}> Full catalog </h2>
-            <div className={'filter-wrapper'}>
-                <div className={open ? 'filter-block' : 'filter-block hidden-element'}>
-                    <input type="number" placeholder={'Price'}/>
-                    <input type="number" placeholder={'Count of pages'}/>
-                    <input type={'text'} placeholder={'Author name'}/>
-                    <button type={'button'} className={'apply-filters'}> Apply </button>
-                </div>
-                <div onClick={openFilterWindow} className={'filter-icon'}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
-    )
+  return (
+    <div className={'catalog-header'}>
+      <h2 className={'title'}> Full catalog </h2>
+      <FilterSection
+        open={open}
+        sortBy={sortBy}
+        handleSortChange={handleSortChange}
+        openFilterWindow={openFilterWindow}
+      />
+    </div>
+  );
 }
 
-export default CatalogHeader
+export default CatalogHeader;
