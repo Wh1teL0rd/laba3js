@@ -1,9 +1,13 @@
 import styles from './scss/CatalogBookCard.module.scss'
+import {Link} from "react-router-dom";
+import {BOOK} from "../../constants/routes";
 
 const CatalogBookCard = (props) => {
     return (
         <div className={styles['catalog-book']}>
-            <img src={props.image} alt={'book-image'}/>
+            <Link to={BOOK + `?id=${props.id}`}>
+                <img src={props.image} alt={'book-image'}/>
+            </Link>
             <div className={styles['book-content']}>
                 <div className={'left-'}>
                     <h3 className={styles['book-title']}>{props.title}</h3>

@@ -1,32 +1,34 @@
 import {
-    createBrowserRouter,
-    RouterProvider
+  createBrowserRouter,
+  RouterProvider
 } from "react-router-dom"
 
 import Home from "./pages/Home";
-import Catalog from "./pages/Catalog";
-import RootRout from "./pages/RootRout";
 import Cart from "./pages/Cart";
+import Catalog from "./pages/Catalog";
+import RootRoute from "./pages/RootRout";
 import BadRoutPage from "./pages/BadRoutPage";
-import {home,catalog,cart} from './constants/routes'
+import BookPage from "./components/book-page/BookPage";
+import {HOME, CATALOG, CART, BOOK} from './constants/routes'
 
 const routes = createBrowserRouter([
-    {
-        path: '/',
-        element: <RootRout/>,
-        errorElement: <BadRoutPage/>,
-        children: [
-            {path: home, element: <Home/>},
-            {path: catalog, element: <Catalog/>},
-            {path: cart, element: <Cart/>}
-        ]
-    }
+  {
+      path: '/',
+      element: <RootRoute/>,
+      errorElement: <BadRoutPage/>,
+      children: [
+          {path: HOME, element: <Home/>},
+          {path: CART, element: <Cart/>},
+          {path: BOOK + '/*', element: <BookPage/>}
+      ]
+  },
+  {path: CATALOG, element: <Catalog/> , errorElement: <BadRoutPage/>}
 ]);
 
 function App() {
-    return (
-        <RouterProvider router={routes}/>
-    );
+  return (
+      <RouterProvider router={routes}/>
+  );
 }
 
 export default App;

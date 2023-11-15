@@ -1,6 +1,6 @@
 import './scss/Navbar.scss'
 import {NavLink} from "react-router-dom";
-import {home,catalog,cart} from '../../constants/routes'
+import {HOME,CATALOG,CART} from '../../constants/routes'
 const Navbar = () => {
 
     return (<div>
@@ -9,7 +9,7 @@ const Navbar = () => {
                 <li>
                     <NavLink className={({isActive}) => (
                         isActive ? 'nav-link active' : 'nav-link'
-                    )} to={home} end>
+                    )} to={HOME} end>
                         Home
                     </NavLink>
                 </li>
@@ -17,14 +17,14 @@ const Navbar = () => {
                     <NavLink
                         className={({isActive}) => (
                             isActive ? 'nav-link active' : 'nav-link'
-                        )} to={catalog} end>
+                        )} to={CATALOG} end>
                         Catalog
                     </NavLink>
                 </li>
                 <li>
                     <NavLink className={({isActive}) => (
                         isActive ? 'nav-link active' : 'nav-link'
-                    )} to={cart} end>
+                    )} to={CART} end>
                         Cart
                     </NavLink>
                 </li>

@@ -2,14 +2,19 @@ import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import {Outlet} from "react-router-dom";
 
-const RootRout = () => {
+const RootRoute = () => {
+
+    function readTitle(title) {
+        console.log(title)
+    }
+
     return (
         <div>
-            <Header/>
-            <Outlet/>
+            <Header onReadTitle={readTitle}/>
+                <Outlet/>
             <Footer/>
         </div>
     )
 }
 
-export default RootRout
+export default RootRoute
