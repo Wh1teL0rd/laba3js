@@ -56,6 +56,36 @@
   align-items: center;
   width: 60%;
 }
+.catalog-header .filter-wrapper .clear-filters {
+  position: relative;
+  width: 2rem;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.catalog-header .filter-wrapper .clear-filters:hover::before {
+  content: "";
+  width: 2rem;
+  height: 2rem;
+  background-color: rgb(245, 245, 245);
+  border-radius: 50%;
+  position: absolute;
+  left: 35%;
+  top: -0.3rem;
+}
+.catalog-header .filter-wrapper .clear-filters span {
+  position: absolute;
+  background-color: #6251DD;
+  height: 1.5px;
+  width: 1.5rem;
+  top: 50%;
+}
+.catalog-header .filter-wrapper .clear-filters span:nth-child(1) {
+  transform: rotate(45deg);
+}
+.catalog-header .filter-wrapper .clear-filters span:nth-child(2) {
+  transform: rotate(-45deg);
+}
 .catalog-header .filter-wrapper .apply-filters {
   font-family: "Manrope", sans-serif;
   background-color: transparent;

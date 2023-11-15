@@ -8,11 +8,18 @@
   display: flex;
   flex-direction: column;
   padding-bottom: 0.8rem;
-  width: 20%;
+  width: 18%;
 }
-.catalog-book img {
+.catalog-book a {
+  display: flex;
+  justify-content: center;
+}
+.catalog-book a img {
   width: 80%;
   margin: 0 auto;
+}
+.catalog-book a img:hover {
+  transform: scale(1.05);
 }
 .catalog-book .book-content {
   display: flex;
