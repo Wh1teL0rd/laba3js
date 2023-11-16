@@ -21,3 +21,10 @@ $orange: #EF6B4A;
     justify-content: space-between;
     margin: 0 auto 7rem;
   }
+
+  @mixin orange-buttons {
+    color: #EF6B4A;
+    cursor: pointer;
+    text-decoration: none
+  }
+  

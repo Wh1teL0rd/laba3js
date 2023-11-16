@@ -3,13 +3,18 @@ import Navbar from "./Navbar.js";
 import Title from './Title'
 import './scss/Header.scss'
 
-const Header = () => {
+const Header = (props) => {
+
+    function passTitleUp(sendTitle) {
+        props.onReadTitle(sendTitle);
+    }
+
     return (
         <header className={'header-wrapper'}>
             <div className={"header"}>
                 <Title/>
                 <Navbar/>
-                <SearchInput/>
+                <SearchInput onReadTitle={passTitleUp} />
             </div>
         </header>
     )
