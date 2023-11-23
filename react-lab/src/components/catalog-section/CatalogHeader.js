@@ -10,6 +10,7 @@ const CatalogHeader = (props) => {
         'pages': '',
         'author': '',
     });
+    const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
 
     function openFilter() {
         setOpen(!open);
@@ -42,6 +43,13 @@ const CatalogHeader = (props) => {
             alert('NotFound book by filter');
             return;
         }
+
+        filteredResult = filteredResult.sort((a, b) => {
+            const priceA = a.priceInUah;
+            const priceB = b.priceInUah;
+            return sortOrder === 'asc' ? priceA - priceB : priceB - priceA;
+        });
+
         setFilteredBooks(filteredResult);
         props.sendFilterUp(filteredResult);
     }
@@ -56,6 +64,7 @@ const CatalogHeader = (props) => {
                     clearFilter={clearFilter}
                     readInput={readInput}
                     submitFilters={submitFilters}
+                    setSortOrder={setSortOrder}
                 />
                 <div onClick={openFilter} className={'filter-icon'}>
                     <span></span>
