@@ -1,6 +1,6 @@
+import Title from "./Title";
 import SearchInput from "./SearchInput";
-import Navbar from "./Navbar.js";
-import Title from './Title'
+import Navbar from "./Navbar";
 import './scss/Header.scss'
 
 const Header = (props) => {
@@ -20,4 +20,4 @@ const Header = (props) => {
     )
 }
 
-export default Header
+export default Header;
