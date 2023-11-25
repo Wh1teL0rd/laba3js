@@ -1,16 +1,32 @@
 import './scss/Navbar.scss'
+import {NavLink} from "react-router-dom";
+import {home,catalog,cart} from '../../constants/routes'
 const Navbar = () => {
+
     return (<div>
         <div className={'navbar'}>
             <ul>
                 <li>
-                    <a href={'#'}>Home</a>
+                    <NavLink className={({isActive}) => (
+                        isActive ? 'nav-link active' : 'nav-link'
+                    )} to={home} end>
+                        Home
+                    </NavLink>
                 </li>
                 <li>
-                    <a href={'#'}>Catalog</a>
+                    <NavLink
+                        className={({isActive}) => (
+                            isActive ? 'nav-link active' : 'nav-link'
+                        )} to={catalog} end>
+                        Catalog
+                    </NavLink>
                 </li>
                 <li>
-                    <a href={'#'}>Cart</a>
+                    <NavLink className={({isActive}) => (
+                        isActive ? 'nav-link active' : 'nav-link'
+                    )} to={cart} end>
+                        Cart
+                    </NavLink>
                 </li>
             </ul>
         </div>

@@ -1,4 +1,4 @@
-import banner from './../../img/Banner.png'
+import banner from './../../assets/Banner.png'
 import './scss/Banner.scss'
 import SliderDots from "./SliderDots";
 

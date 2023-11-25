@@ -37,3 +37,9 @@
 Посилання на вітку [тут](https://github.com/Wh1teL0rd/laba3js/tree/lab6)
 
 ---
+
+### Лабораторна робота №7
+
+Посилання на вітку [тут](https://github.com/Wh1teL0rd/laba3js/tree/lab7)
+
+---
