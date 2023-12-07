@@ -37,6 +37,27 @@ app.get('/books', (req, res) => {
   });
 });
 
+// Маршрут для отримання книги за ідентифікатором
+app.get('/books/:id', (req, res) => {
+  const bookId = req.params.id;
+
+  const query = `SELECT * FROM books WHERE id = ${bookId}`;
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error('Помилка запиту до бази даних:', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (result.length === 0) {
+        // Якщо книга з вказаним ідентифікатором не знайдена
+        res.status(404).send('Book not found');
+      } else {
+        res.json(result[0]);
+      }
+    }
+  });
+});
+
 // Маршрут для фільтрації книг
 app.get('/books/filter', (req, res) => {
   const { price, pages, author } = req.query;

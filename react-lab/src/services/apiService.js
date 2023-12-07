@@ -29,3 +29,12 @@ export async function getFilteredBooks({ price, pages, author }) {
     console.error(error);
   }
 }
+
+export async function getBookById(bookId) {
+    try {
+        const response = await axios.get(BASE_URL + `/${bookId}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
