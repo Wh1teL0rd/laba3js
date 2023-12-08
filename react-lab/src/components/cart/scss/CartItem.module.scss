@@ -13,6 +13,7 @@
   font-family: base.$main-font;
 
   .leftCorner {
+    width: 60%;
     display: flex;
     min-width: 12rem;
 
@@ -57,6 +58,7 @@
   }
 
   .raiseButtons {
+    padding-right: 40px;
     align-items: center;
     justify-content: space-evenly;
     width: 18%;

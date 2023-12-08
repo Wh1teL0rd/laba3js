@@ -20,7 +20,7 @@ const BookMainContent = (props) => {
                     <div className={'description'}>
                         <h3> Summary </h3>
                         <p>
-                            {props.bookData.description + SUMMARY}
+                            {SUMMARY}
                         </p>
                     </div>
                 </div>
